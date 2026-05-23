@@ -2,8 +2,6 @@
 
 Code repository for the paper: *Static Pruning Portability Across Sparse Retrieval Engines*
 
-**Anonymous repository:** https://anonymous.4open.science/r/cross-engine-pruning
-
 ## Overview
 
 This paper evaluates static pruning strategies (Alpha-Mass and Max-Ratio) across three fundamentally different sparse retrieval engines, two datasets, and two encoders (1,140 configurations total). We show that:
@@ -55,14 +53,6 @@ This paper evaluates static pruning strategies (Alpha-Mass and Max-Ratio) across
 │   ├── seismic/                # SEISMIC integration scripts
 │   │   ├── run_seismic.py      # S1-S5 experiment suite
 │   │   └── csr_to_seismic.py   # CSR to SEISMIC JSONL converter
-│   ├── figures/                # Figure generation scripts
-│   │   ├── common.py           # Shared plot configuration
-│   │   ├── fig1_portability_pareto.py
-│   │   ├── fig3_seismic_pareto.py
-│   │   ├── fig4_bmp_factorial.py
-│   │   ├── fig5_profiling.py
-│   │   ├── fig6_ndcg_saturation.py
-│   │   └── fig7_per_query_variance.py
 │   └── profiling/              # Perf stat profiling scripts
 │       └── run_perf.sh
 ├── evaluation/                 # Quality metric computation
