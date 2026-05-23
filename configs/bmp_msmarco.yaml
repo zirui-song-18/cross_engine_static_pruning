@@ -1,0 +1,41 @@
+# Example configuration: BMP engine on MS MARCO + SPLADE
+engine: bmp
+dataset: msmarco_splade
+
+data:
+  docs_csr: data/msmarco/docs.csr
+  queries_pisa: data/msmarco/queries.pisa
+  vocab: data/msmarco/vocab.txt
+  doc_ids: data/msmarco/doc_ids.txt
+  qrels: data/msmarco/qrels.tsv
+  query_ids: data/msmarco/query_ids.txt
+
+bmp:
+  block_size: 8
+  search_binary: BMP/target/release/search
+  ciff2bmp_binary: BMP/target/release/ciff2bmp
+  csr_to_bmp_script: BMP/csr_to_bmp.py
+
+search:
+  k: 10
+  cpu_core: 0
+  search_alphas: [0.5, 0.7, 0.9, 1.0]
+
+phases:
+  # B3: Document pruning
+  - name: B3
+    type: doc_alpha_mass
+    parameters: [0.5, 0.6, 0.7, 0.8, 0.9, 0.95]
+  - name: B3
+    type: doc_max_ratio
+    parameters: [0.1, 0.2, 0.3, 0.4, 0.5]
+
+  # B4: Posting-list pruning
+  - name: B4
+    type: posting_max_ratio
+    parameters: [0.01, 0.02, 0.05, 0.1, 0.15, 0.2, 0.3]
+
+  # B5: Combined (static index pruning + dynamic query pruning)
+  - name: B5
+    doc_prune_config: doc_am0.90
+    query_max_ratio: 0.1

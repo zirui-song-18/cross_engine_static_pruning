@@ -1,0 +1,96 @@
+{
+  "description": "Full 1,140-configuration experiment space for cross-engine pruning evaluation",
+  "total_configurations": 1140,
+  "engines": {
+    "custom_cpp": {
+      "description": "Custom C++ pipeline with window-switch accumulator",
+      "parameters": {
+        "k": [10],
+        "kprime": [50],
+        "num_worker": [1],
+        "cpu_pinned": true
+      }
+    },
+    "bmp": {
+      "description": "Block-Max Pruning (Rust implementation)",
+      "parameters": {
+        "k": [10],
+        "block_size": [8],
+        "alpha": [0.5, 0.7, 0.9, 1.0],
+        "beta": [1.0],
+        "cpu_pinned": true
+      }
+    },
+    "seismic": {
+      "description": "SEISMIC graph-based sparse retrieval",
+      "parameters": {
+        "k": [10],
+        "query_cut": [3, 4, 5, 8, 20],
+        "heap_factor": [1.0, 1.15, 1.20, 1.30, 1.50, 1.75, 2.00],
+        "n_postings": [4000],
+        "centroid_fraction": [0.2],
+        "summary_energy": [0.5],
+        "doc_cut": [15],
+        "cpu_pinned": true
+      }
+    }
+  },
+  "datasets": {
+    "msmarco_splade": {
+      "corpus_size": 8841823,
+      "avg_query_terms": 44,
+      "encoder": "SPLADE-cocondenser",
+      "description": "MS MARCO Passage v1, SPLADE-encoded"
+    },
+    "msmarco_v3gte": {
+      "corpus_size": 8841823,
+      "avg_query_terms": 7,
+      "encoder": "V3-GTE (sparse)",
+      "description": "MS MARCO Passage v1, V3-GTE-encoded"
+    },
+    "nq_splade": {
+      "corpus_size": 2681468,
+      "avg_query_terms": 44,
+      "encoder": "SPLADE-cocondenser",
+      "description": "Natural Questions, SPLADE-encoded"
+    },
+    "nq_v3gte": {
+      "corpus_size": 2681468,
+      "avg_query_terms": 7,
+      "encoder": "V3-GTE (sparse)",
+      "description": "Natural Questions, V3-GTE-encoded"
+    }
+  },
+  "pruning_strategies": {
+    "query_alpha_mass": {
+      "description": "Retain query terms capturing alpha fraction of total activation mass",
+      "parameters": [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0]
+    },
+    "query_max_ratio": {
+      "description": "Retain query terms with weight >= max_weight * ratio",
+      "parameters": [0.01, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5]
+    },
+    "doc_alpha_mass": {
+      "description": "Retain document terms capturing alpha fraction of total activation mass",
+      "parameters": [0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.60, 0.70, 0.80, 0.90, 0.95]
+    },
+    "doc_max_ratio": {
+      "description": "Retain document terms with weight >= max_weight * ratio",
+      "parameters": [0.1, 0.2, 0.3, 0.4, 0.5]
+    },
+    "posting_alpha_mass": {
+      "description": "Per-posting-list: retain entries capturing alpha fraction of mass",
+      "parameters": [0.5, 0.6, 0.7, 0.8, 0.9, 0.95]
+    },
+    "posting_max_ratio": {
+      "description": "Per-posting-list: retain entries with weight >= max * ratio",
+      "parameters": [0.01, 0.02, 0.05, 0.1, 0.15, 0.2, 0.3]
+    }
+  },
+  "metrics": {
+    "latency": ["avg_ms", "p50_ms", "p90_ms", "p95_ms", "p99_ms"],
+    "quality": ["recall_at_10", "ndcg_at_10", "mrr_at_10", "success_at_10"],
+    "memory": ["inverted_index_mb", "forward_index_mb", "index_size_bytes"],
+    "profiling": ["cache_miss_rate", "ipc", "dtlb_miss_rate"]
+  }
+}

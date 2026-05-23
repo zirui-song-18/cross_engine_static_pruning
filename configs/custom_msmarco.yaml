@@ -1,0 +1,53 @@
+# Example configuration: Custom C++ engine on MS MARCO + SPLADE
+engine: custom_cpp
+dataset: msmarco_splade
+
+data:
+  doc_file: data/msmarco/docs.csr
+  query_file: data/msmarco/queries.csr
+  qrels_file: data/msmarco/qrels.tsv
+  query_ids_file: data/msmarco/query_ids.txt
+  ground_truth_file: data/msmarco/ground_truth.txt
+
+search:
+  k: 10
+  kprime: 50
+  num_worker: 1
+  cpu_core: 0
+
+phases:
+  # Phase Q: Query pruning sweep
+  - name: Q
+    type: query_alpha_mass
+    parameters: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0]
+  - name: Q
+    type: query_max_ratio
+    parameters: [0.01, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5]
+
+  # Phase D: Document pruning sweep
+  - name: D
+    type: doc_alpha_mass
+    parameters: [0.20, 0.25, 0.30, 0.35, 0.40, 0.45]
+  - name: D
+    type: doc_max_ratio
+    parameters: [0.1, 0.2, 0.3, 0.4, 0.5]
+
+  # Phase P: Posting-list pruning sweep
+  - name: P
+    type: posting_alpha_mass
+    parameters: [0.5, 0.6, 0.7, 0.8, 0.9, 0.95]
+  - name: P
+    type: posting_max_ratio
+    parameters: [0.05, 0.1, 0.2, 0.3]
+
+  # Phase QD: Combined query + doc
+  - name: QD
+    type: combined_query_doc
+    query_alpha: [0.5, 0.7, 0.9]
+    doc_alpha: [0.9]
+
+  # Phase QP: Combined query + posting
+  - name: QP
+    type: combined_query_posting
+    query_alpha: [0.5, 0.7, 0.9]
+    posting_alpha: [0.9]

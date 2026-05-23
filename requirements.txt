@@ -1,0 +1,18 @@
+# Core dependencies
+numpy>=1.21.0
+scipy>=1.7.0
+click>=8.0.0
+psutil>=5.8.0
+
+# Figure generation
+matplotlib>=3.5.0
+pandas>=1.3.0
+
+# Evaluation (optional, for TREC-format evaluation)
+# pytrec_eval  # optional, not required for core functionality
+
+# SEISMIC experiments (install seismic separately)
+# pip install seismic  # or build from source
+
+# BMP experiments (requires BMP Rust binaries built from source)
+# See: https://github.com/JMMackenzie/BMP

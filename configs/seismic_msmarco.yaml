@@ -1,0 +1,58 @@
+# Example configuration: SEISMIC engine on MS MARCO + SPLADE
+engine: seismic
+dataset: msmarco_splade
+
+data:
+  docs_csr: data/msmarco/docs.csr
+  queries_csr: data/msmarco/queries.csr
+  vocab: data/msmarco/vocab.txt
+  doc_ids: data/msmarco/doc_ids.txt
+  qrels: data/msmarco/qrels.tsv
+  query_ids: data/msmarco/query_ids.txt
+
+seismic:
+  build_params:
+    n_postings: 4000
+    centroid_fraction: 0.2
+    summary_energy: 0.5
+    max_fraction: 3.0
+    min_cluster_size: 2
+    doc_cut: 15
+    nknn: 0
+
+search:
+  k: 10
+  cpu_core: 0
+
+phases:
+  # S1: Baseline sweep
+  - name: S1
+    query_cut: [4]
+    heap_factor: [1.15, 1.20, 1.30, 1.50, 1.75, 2.00]
+
+  # S2: Query pruning (MR) x query_cut
+  - name: S2
+    query_max_ratio: [0.01, 0.05, 0.1, 0.15, 0.2, 0.3, 0.5]
+    query_cut: [3, 5, 8, 20]
+
+  # S3: Document pruning -> rebuild index
+  - name: S3
+    type: doc_alpha_mass
+    parameters: [0.5, 0.7, 0.9, 0.95]
+    query_cut: [3, 5, 8]
+  - name: S3
+    type: doc_max_ratio
+    parameters: [0.1, 0.3, 0.5]
+    query_cut: [3, 5, 8]
+
+  # S4: Posting pruning -> rebuild index
+  - name: S4
+    type: posting_max_ratio
+    parameters: [0.05, 0.1, 0.2, 0.3]
+    query_cut: [3, 5, 8]
+
+  # S5: Combined
+  - name: S5
+    doc_prune: [doc_alpha_mass, 0.9]
+    query_max_ratio: 0.1
+    query_cut: [3, 5, 8]
