@@ -24,7 +24,7 @@ This paper evaluates static pruning strategies (Alpha-Mass and Max-Ratio) across
 |---------|-----------|---------|-----------------|
 | MS MARCO Passage | 8.8M | SPLADE-cocondenser | 44 |
 | MS MARCO Passage | 8.8M | V3-GTE | 7 |
-| Natural Questions | 2.7M | SPLADE-cocondenser | 44 |
+| Natural Questions | 2.7M | SPLADE-cocondenser | 47 |
 | Natural Questions | 2.7M | V3-GTE | 7 |
 
 ## Repository Structure
