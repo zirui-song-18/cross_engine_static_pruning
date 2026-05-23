@@ -27,47 +27,6 @@ This paper evaluates static pruning strategies (Alpha-Mass and Max-Ratio) across
 | Natural Questions | 2.7M | SPLADE-cocondenser | 47 |
 | Natural Questions | 2.7M | V3-GTE | 7 |
 
-## Repository Structure
-
-```
-.
-├── engine/                     # Custom C++ sparse retrieval engine
-│   ├── CMakeLists.txt          # Build configuration
-│   ├── src/                    # C++ source files
-│   │   ├── AlphaMassDoc_AlphaMassPosting.{h,cpp}  # Main search with pruning
-│   │   ├── InvertedIndexWindowed.h                 # Window-switch accumulator
-│   │   ├── AlphaMassQuery.{h,cpp}                  # Query-only pruning variant
-│   │   ├── LinscanIndex.{h,cpp}                    # Baseline linear scan
-│   │   ├── CsrReader.{h,cpp}                       # CSR format reader
-│   │   ├── py_binding.cpp                          # pybind11 Python interface
-│   │   └── ...                                     # Supporting headers
-│   ├── pybind11/               # pybind11 submodule (clone separately)
-│   └── cereal/                 # cereal serialization (clone separately)
-├── scripts/
-│   ├── custom/                 # Custom C++ pipeline experiment scripts
-│   │   ├── run_experiments.py  # Full pruning experiment suite
-│   │   └── bench.py            # Single-run benchmark driver
-│   ├── bmp/                    # BMP integration scripts
-│   │   ├── fast_search.py      # Fast multi-config BMP search
-│   │   └── run_bmp_pruning.py  # B3/B4/B5 index-side pruning
-│   ├── seismic/                # SEISMIC integration scripts
-│   │   ├── run_seismic.py      # S1-S5 experiment suite
-│   │   └── csr_to_seismic.py   # CSR to SEISMIC JSONL converter
-│   └── profiling/              # Perf stat profiling scripts
-│       └── run_perf.sh
-├── evaluation/                 # Quality metric computation
-│   ├── __init__.py
-│   └── metrics.py              # Recall, NDCG, MRR, Success@k
-├── configs/                    # Experiment configuration files
-│   ├── experiment_space.json   # Full 1,140-config space definition
-│   ├── custom_msmarco.yaml     # Custom engine config example
-│   ├── bmp_msmarco.yaml        # BMP config example
-│   └── seismic_msmarco.yaml    # SEISMIC config example
-├── figures/                    # Output directory for generated figures
-├── requirements.txt            # Python dependencies
-└── README.md                   # This file
-```
-
 ## Building the Custom C++ Engine
 
 ### Prerequisites
@@ -97,7 +56,6 @@ make -j$(nproc)
 
 ### Build Options
 
-- `-DENABLE_FLOAT=ON`: Use float32 values (default: int8 quantized)
 - `-DNO_RERANK=ON`: Disable two-stage re-ranking (single-stage mode)
 
 ## Reproducing Experiments
@@ -164,20 +122,6 @@ python scripts/seismic/run_seismic.py \
     --data-dir /path/to/your/data \
     --phases all \
     --cpu-core 0
-```
-
-### Generating Figures
-
-```bash
-# Set the result directory
-export RESULT_DIR=/path/to/experiment/results
-
-# Generate individual figures
-python scripts/figures/fig1_portability_pareto.py
-python scripts/figures/fig3_seismic_pareto.py
-python scripts/figures/fig5_profiling.py --prof-dir /path/to/profiling/results
-python scripts/figures/fig6_ndcg_saturation.py --data-dir /path/to/fig6/data
-python scripts/figures/fig7_per_query_variance.py --per-query-dir /path/to/per_query/csvs
 ```
 
 ## Measurement Methodology
