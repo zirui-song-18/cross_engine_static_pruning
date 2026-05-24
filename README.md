@@ -138,7 +138,7 @@ All latency measurements follow a consistent protocol:
 
 | Tool | Version | Purpose | Source |
 |------|---------|---------|--------|
-| BMP | commit `main` | Block-Max Pruning engine | https://github.com/JMMackenzie/BMP |
+| BMP | commit `main` | Block-Max Pruning engine | https://github.com/pisa-engine/BMP |
 | SEISMIC | >= 0.3.0 | Graph-based sparse retrieval | https://github.com/TusKANNy/seismic |
 | pybind11 | >= 2.10 | C++/Python bindings | https://github.com/pybind/pybind11 |
 
