@@ -15,7 +15,7 @@ This paper evaluates static pruning strategies (Alpha-Mass and Max-Ratio) across
 | Engine | Architecture | Accumulation Strategy |
 |--------|-------------|----------------------|
 | Custom C++ | Inverted index with window-switch accumulator | Document-ordered, windowed |
-| [BMP](https://github.com/JMMackenzie/BMP) | Block-Max Pruning (Rust) | Block-partitioned, dynamic pruning |
+| [BMP](https://github.com/pisa-engine/BMP) | Block-Max Pruning (Rust) | Block-partitioned, dynamic pruning |
 | [SEISMIC](https://github.com/TusKANNy/seismic) | Graph-based sparse retrieval | Cluster-navigating |
 
 ### Datasets
@@ -93,7 +93,7 @@ python scripts/custom/run_experiments.py \
 
 ### Running BMP Experiments
 
-Requires the [BMP](https://github.com/JMMackenzie/BMP) repository built from source.
+Requires the [BMP](https://github.com/pisa-engine/BMP) repository built from source.
 
 ```bash
 # Build BMP (Rust)
