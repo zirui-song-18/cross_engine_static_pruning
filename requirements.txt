@@ -15,4 +15,4 @@ pandas>=1.3.0
 # pip install seismic  # or build from source
 
 # BMP experiments (requires BMP Rust binaries built from source)
-# See: https://github.com/JMMackenzie/BMP
+# See: https://github.com/pisa-engine/BMP

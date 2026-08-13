@@ -1,6 +1,6 @@
 # Cross-Engine Static Pruning for Sparse Retrieval
 
-Code repository for the paper: *Static Pruning Portability Across Sparse Retrieval Engines*
+Code repository for the paper: *Static Pruning Across Sparse Retrieval Regimes: What Transfers, What Breaks, and What Still Helps* (CIKM '26).
 
 ## Overview
 
@@ -16,7 +16,7 @@ This paper evaluates static pruning strategies (Alpha-Mass and Max-Ratio) across
 |--------|-------------|----------------------|
 | Custom C++ | Inverted index with window-switch accumulator | Document-ordered, windowed |
 | [BMP](https://github.com/pisa-engine/BMP) | Block-Max Pruning (Rust) | Block-partitioned, dynamic pruning |
-| [SEISMIC](https://github.com/TusKANNy/seismic) | Graph-based sparse retrieval | Cluster-navigating |
+| [SEISMIC](https://github.com/TusKANNy/seismic) | Clustered inverted index | Cluster-navigating |
 
 ### Datasets
 
@@ -154,4 +154,4 @@ It covers the Cartesian product of:
 
 ## License
 
-This code is released for academic review purposes.
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
